@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnuByte</title>
+  <meta name="author" content="AnuByte Developments">
+  <link rel="stylesheet" href="https://teamanu.github.io/Website/assets/styling/global.css">
+  <script src="https://teamanu.github.io/Website/assets/scripting/global.js"></script>
+  <link rel="icon" href="https://teamanu.github.io/Website/assets/branding/favicon.ico" type="image/png">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #141414;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .loader-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .loader {
+      width: 120px;
+      height: 120px;
+      border: 4px solid #2c2c2c;
+      border-top: 4px solid #9b59b6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .loader-icon {
+      position: absolute;
+      top: 33%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loader-title {
+      font-weight: bold;
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    .loader-subtitle {
+      font-size: 16px;
+      color: #cccccc;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .loader {
+        width: 80px;
+        height: 80px;
+      }
+
+      .loader-icon {
+        width: 35px;
+        height: 35px;
+      }
+
+      .loader-title {
+        font-size: 18px;
+      }
+
+      .loader-subtitle {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+    <img src="checking-browser.png" alt="Shield" class="loader-icon">
+    <div class="loader-title">Verifying you are human</div>
+    <div class="loader-subtitle">Please wait...</div>
+  </div>
+
+  <script>
+    setTimeout(function() {
+      window.location.href = "https://teamanu.github.io/Website/website/home.html";
+    }, 3000);
+  </script>
+</body>
+</html>
