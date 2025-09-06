@@ -5,16 +5,19 @@ Please note that this website is temporary until We decide on a Host suitable fo
 
 > [!NOTE]
 > GitHub Pages is front-end only. This means that functionality is extremely limited, so don't expect Our website to work perfectly.
+> For any information, please refere to the respective [documentation](https://github.com/TeamANU/Documentation).
 
 ---
 
-### Download The Android App
-Want to take Us on the go? You can [download](https://google.com/404) the Android WebView APK which will load the website in mobile form.
+### Download The App
+You can download the Android or Windows app. We use Niotron to build a WebView APK for Android and Python for the Windows version (local files hosted on a Python server).  
+[Android](https://google.com/404)  
+[Windows](https://google.com/404)
 
 ---
 
 ### Found An Issue?
-If You encounter any problems or bugs with the website, please let Us know via issues.
+If You encounter any problems or bugs with the website or the apps, please let Us know via issues.
 
 ---
 
