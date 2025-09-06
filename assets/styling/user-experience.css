@@ -1,0 +1,14 @@
+/* Disables ALL blue highlighting when interacting with elements. */
+
+*::selection {
+    background: transparent;
+    color: inherit;
+}
+
+*:focus {
+    outline: none;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}

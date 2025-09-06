@@ -1,0 +1,86 @@
+/* Responsive CSS to ensure that all elements display correctly across all (or most) devices / screens. */
+
+* {
+    max-width: 97%;
+    width: 97%;
+    box-sizing: border-box;
+}
+
+html, body {
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.container, .card, .popup, .modal, .menu, nav, header, footer, section, article, aside, main, div {
+    width: 97%;
+    max-width: 97%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.row, .flex-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.column, .flex-column {
+    flex: 1 1 auto;
+    min-width: 200px;
+}
+
+@media (max-width: 1200px) {
+    .row, .flex-row {
+        flex-direction: row;
+    }
+    .column, .flex-column {
+        flex: 1 1 48%;
+    }
+}
+
+@media (max-width: 900px) {
+    .row, .flex-row {
+        flex-direction: column;
+    }
+    .column, .flex-column {
+        flex: 1 1 100%;
+    }
+    .menu, .popup, .modal {
+        width: 95%;
+        max-width: 95%;
+        padding: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .container, .card, nav, header, footer, section, article, aside, main, div {
+        width: 95%;
+        max-width: 95%;
+        padding: 8px;
+    }
+    .row, .flex-row {
+        flex-direction: column;
+    }
+    .column, .flex-column {
+        flex: 1 1 100%;
+    }
+    .menu, .popup, .modal {
+        width: 90%;
+        max-width: 90%;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 400px) {
+    .container, .card, nav, header, footer, section, article, aside, main, div {
+        width: 90%;
+        max-width: 90%;
+        padding: 6px;
+    }
+    .menu, .popup, .modal {
+        width: 88%;
+        max-width: 88%;
+        padding: 8px;
+    }
+}

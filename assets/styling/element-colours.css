@@ -1,0 +1,91 @@
+/* Global colours for all (or at least most) elements, will improve this soon. */
+
+:root {
+    --dark-bg: #1b1b1f;
+    --dark-grey: #2a2a2e;
+    --mid-grey: #3b3b42;
+    --light-grey: #55555f;
+    --hover-grey: #66666f;
+    --text-color: #e0e0e5;
+    --border-color: #3a3a42;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    font-family: system-ui, Segoe UI, Roboto, Arial;
+}
+
+html, body {
+    height: 100%;
+    background-color: var(--dark-bg);
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--hover-grey);
+}
+
+button, input, select, textarea {
+    background-color: var(--dark-grey);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover, input:hover, select:hover, textarea:hover {
+    background-color: var(--hover-grey);
+}
+
+nav, header, footer, section, article, aside, main, div {
+    background-color: var(--dark-grey);
+    border-radius: 6px;
+    padding: 16px;
+    margin: 8px 0;
+}
+
+nav * , header *, footer *, section *, article *, aside *, main *, div * {
+    background-color: var(--mid-grey);
+    color: var(--text-color);
+}
+
+nav *:hover, header *:hover, footer *:hover, section *:hover, article *:hover, aside *:hover, main *:hover, div *:hover {
+    background-color: var(--hover-grey);
+}
+
+ul, ol {
+    list-style: none;
+}
+
+hr {
+    border: 1px solid var(--border-color);
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: 2px solid var(--hover-grey);
+}
+
+.card, .popup, .modal, .menu {
+    background-color: var(--mid-grey);
+    padding: 24px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.card * , .popup * , .modal * , .menu * {
+    background-color: var(--light-grey);
+    color: var(--text-color);
+}
+
+.card *:hover , .popup *:hover , .modal *:hover , .menu *:hover {
+    background-color: var(--hover-grey);
+}
