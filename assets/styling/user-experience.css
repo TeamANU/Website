@@ -1,0 +1,30 @@
+* {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  scroll-behavior: smooth;
+  transition: all 0.25s ease;
+}
+
+button, input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+a, svg, img, video, iframe {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+svg:hover, img:hover, video:hover, iframe:hover {
+  transform: scale(0.97);
+}
+
+img, video, iframe {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: high-quality;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
