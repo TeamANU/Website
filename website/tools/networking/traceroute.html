@@ -1,17 +1,515 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Tools - Traceroute</title>
-<meta name="author" content="Team ANU">
-<meta name="publisher" content="AnuByte Developments">
-<link rel="stylesheet" href="https://teamanu.github.io/Website/assets/styling/responsive.css">
-<link rel="stylesheet" href="https://teamanu.github.io/Website/assets/styling/user-experience.css">
-<link rel="stylesheet" href="https://teamanu.github.io/Website/assets/styling/colours.css">
-<link rel="stylesheet" href="https://teamanu.github.io/Website/assets/styling/navigation-bar.css">
-<script src="https://teamanu.github.io/Website/assets/scripts/navigation-bar.js"></script>
-<link rel="icon" href="https://teamanu.github.io/Website/assets/branding/logo.png" type="image/png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tools - TraceRoute</title>
+  <link rel="icon" type="image/png" href="https://teamanu.github.io/Website/assets/branding/favicon.png">
+
+<style>
+  :root{
+    --page-bg: #141414;
+    --nav-bg: #1e1e1e;
+    --border: #333333;
+    --muted: #c0c0c0;
+    --popup-bg: #1b1b1b;
+    --round: 8px;
+    --scroll-thumb: #666666;
+  }
+
+  * { box-sizing: border-box; }
+html, body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--page-bg);
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+}
+
+body > main {
+  flex: 1 0 auto;
+}
+  a { color: inherit; text-decoration: none; }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-thumb);
+    border-radius: 8px;
+  }
+
+  .top-wrap {
+    width: calc(100% - 40px);
+    margin: 20px auto 0 auto;
+    position: relative;
+  }
+
+  nav.top-nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    background: var(--nav-bg);
+    border-radius: var(--round);
+    border: 1px solid var(--border);
+    height: 64px;
+  }
+
+  .nav-icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+    padding: 0 6px;
+  }
+
+  .nav-item {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .nav-item a, .nav-item button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 6px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+
+  .nav-item img.icon {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    pointer-events: none;
+  }
+
+  main {
+    padding: 28px 20px;
+    margin-top: 12px;
+    width: 100%;
+  }
+
+  .card {
+    background: #1f1f1f;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    max-width: 1330px;
+    margin: -15px auto;
+  }
+
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    background: #000000cc;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1200;
+  }
+  .backdrop.show {
+    display: flex;
+  }
+
+  .modal {
+    width: 420px;
+    max-width: calc(100% - 40px);
+    background: var(--popup-bg);
+    border-radius: var(--round);
+    border: 1px solid var(--border);
+    padding: 18px;
+    color: #ffffff;
+    position: relative;
+  }
+  .modal .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .modal .modal-title { font-weight: 700; font-size: 16px; }
+  .modal .close-btn {
+    background: transparent;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .modal .close-btn img { width: 20px; height: 20px; }
+
+  .modal .input-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #2a2a2a;
+    border-radius: var(--round);
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    width: 100%;
+  }
+  .modal .input-row img { width: 20px; height: 20px; }
+  .modal .input-row input {
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    width: 100%;
+    font-size: 14px;
+    outline: none;
+  }
+
+  .menu-panel {
+    width: calc(100% - 100px);
+    height: calc(100% - 80px);
+    max-width: 1300px;
+    max-height: 900px;
+    background: var(--popup-bg);
+    border-radius: var(--round);
+    border: 1px solid var(--border);
+    padding: 18px;
+    color: #ffffff;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .menu-header {
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .menu-title { font-weight:700; font-size:18px; }
+
+  .menu-close {
+    width:24px;
+    height:24px;
+    border-radius:6px;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .menu-close img {
+    width:28px;
+    height:28px;
+  }
+
+  .menu-options {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+
+  .menu-options::-webkit-scrollbar {
+    width: 8px;
+  }
+  .menu-options::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .menu-options::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-thumb);
+    border-radius: 8px;
+  }
+
+  .menu-option {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding: 10px;
+    border-radius: var(--round);
+    cursor:pointer;
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+  .menu-option .opt-icon { width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .menu-option .opt-text { font-size:15px; }
+
+  .menu-option:hover {
+    background: #2a2a2a;
+  }
+
+  .site-footer {
+    width: calc(100% - 40px);
+    margin: 40px auto 20px auto;
+    padding: 12px 20px;
+    background: var(--nav-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ffffff;
+  }
+
+  .site-footer .footer-left {
+    font-size: 14px;
+  }
+
+  .site-footer .footer-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .site-footer .footer-right a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+  }
+
+  .site-footer .footer-right img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+  }
+
+  @media (max-width: 1024px) {
+    nav.top-nav { height: 60px; padding: 8px 14px; }
+    .nav-item a, .nav-item button { width:42px; height:42px; }
+    .modal { width: calc(100% - 48px); }
+    .menu-panel { width: calc(100% - 60px); height: calc(100% - 60px); }
+    .card { max-width: 700px; }
+  }
+
+  @media (max-width: 768px) {
+    nav.top-nav { height: 56px; padding: 6px 12px; }
+    .nav-item a, .nav-item button { width:38px; height:38px; }
+    .modal { width: calc(100% - 36px); }
+    .menu-panel { width: calc(100% - 40px); height: calc(100% - 40px); }
+    .card { max-width: 100%; margin: 16px auto; }
+    .site-footer { flex-direction: column; gap: 12px; text-align: center; }
+    .site-footer .footer-right { justify-content: center; }
+  }
+
+  @media (max-width: 520px){
+    nav.top-nav { height: 52px; padding: 6px 10px; }
+    .nav-item a, .nav-item button { width:34px; height:34px; }
+    .modal { width: calc(100% - 24px); }
+    .menu-panel { width: calc(100% - 24px); height: calc(100% - 24px); }
+    .menu-title { font-size:16px; }
+    .menu-option .opt-text { font-size:14px; }
+  }
+
+  .sr-only { position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
+</style>
+
 </head>
 <body>
+  <div class="top-wrap">
+    <nav class="top-nav">
+      <div class="nav-icons">
+        <div class="nav-item">
+          <a href="page1.html">
+            <img class="icon" src="https://teamanu.github.io/Website/assets/icons/home.png" alt="Home" />
+          </a>
+        </div>
+        <div class="nav-item">
+          <button id="open-center">
+            <img class="icon" src="https://teamanu.github.io/Website/assets/icons/search.png" alt="Search" />
+          </button>
+        </div>
+        <div class="nav-item">
+          <a href="page3.html">
+            <img class="icon" src="https://teamanu.github.io/Website/assets/icons/account.png" alt="Account" />
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="page4.html">
+            <img class="icon" src="https://teamanu.github.io/Website/assets/icons/settings.png" alt="Settings" />
+          </a>
+        </div>
+        <div class="nav-item">
+          <button id="open-menu">
+            <img class="icon" src="https://teamanu.github.io/Website/assets/icons/navigation-menu.png" alt="Menu" />
+          </button>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <div class="card">
+      <h2>Page incomplete</h2>
+      <p style="color:var(--muted)">Please come back soon!</p>
+    </div>
+  </main>
+
+  <div id="backdrop-center" class="backdrop">
+    <div id="center-modal" class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Search</div>
+        <button class="close-btn" id="center-close">
+          <img src="https://teamanu.github.io/Website/assets/icons/close.png" alt="Close" />
+        </button>
+      </div>
+      <div class="input-row">
+        <img src="https://teamanu.github.io/Website/assets/icons/search.png" alt="Search" />
+        <input id="popup-input" type="text" placeholder="Search..." />
+      </div>
+    </div>
+  </div>
+
+  <div id="backdrop-menu" class="backdrop">
+    <div id="menu-panel" class="menu-panel">
+      <div class="menu-header">
+        <div class="menu-title">Menu</div>
+        <button class="menu-close" id="menu-close">
+          <img src="https://teamanu.github.io/Website/assets/icons/close.png" alt="Close" />
+        </button>
+      </div>
+      <div class="menu-options">
+        <a class="menu-option" href="https://teamanu.github.io/Website/website/projects/projects.html">
+          <div class="opt-icon"><img src="https://teamanu.github.io/Website/assets/icons/projects.png" alt="" style="width:28px;height:28px;" /></div>
+          <div class="opt-text">Projects</div>
+        </a>
+        <a class="menu-option" href="https://teamanu.github.io/Website/website/downloads/explore.html">
+          <div class="opt-icon"><img src="https://teamanu.github.io/Website/assets/icons/downloads.png" alt="" style="width:28px;height:28px;" /></div>
+          <div class="opt-text">Downloads</div>
+        </a>
+        <a class="menu-option" href="https://teamanu.github.io/Website/website/tools/explore.html">
+          <div class="opt-icon"><img src="https://teamanu.github.io/Website/assets/icons/tools.png" alt="" style="width:28px;height:28px;" /></div>
+          <div class="opt-text">Tools</div>
+        </a>
+        <a class="menu-option" href="https://teamanu.github.io/Website/website/store/explore.html">
+          <div class="opt-icon"><img src="https://teamanu.github.io/Website/assets/icons/store.png" alt="" style="width:28px;height:28px;" /></div>
+          <div class="opt-text">Store</div>
+        </a>
+        <a class="menu-option" href="https://teamanu.github.io/Website/website/anubyte-ai/chat.html">
+          <div class="opt-icon"><img src="https://teamanu.github.io/Website/assets/icons/anubyte-ai.png" alt="" style="width:28px;height:28px;" /></div>
+          <div class="opt-text">AnuByte AI</div>
+        </a>
+        <a class="menu-option" href="https://teamanu.github.io/Website/website/anubyte-app.html">
+          <div class="opt-icon"><img src="https://teamanu.github.io/Website/assets/icons/anubyte-app.png" alt="" style="width:28px;height:28px;" /></div>
+          <div class="opt-text">AnuByte App</div>
+        </a>
+        <a class="menu-option" href="https://teamanu.github.io/Website/website/experiments/experiments.html">
+          <div class="opt-icon"><img src="https://teamanu.github.io/Website/assets/icons/experiments.png" alt="" style="width:28px;height:28px;" /></div>
+          <div class="opt-text">Experiments</div>
+        </a>
+        <a class="menu-option" href="https://teamanu.github.io/Website/website/miscellaneous/explore.html">
+          <div class="opt-icon"><img src="https://teamanu.github.io/Website/assets/icons/miscellaneous.png" alt="" style="width:28px;height:28px;" /></div>
+          <div class="opt-text">Miscellaneous</div>
+        </a>
+        <a class="menu-option" href="https://teamanu.github.io/Website/website/information/explore.html">
+          <div class="opt-icon"><img src="https://teamanu.github.io/Website/assets/icons/information.png" alt="" style="width:28px;height:28px;" /></div>
+          <div class="opt-text">Information</div>
+        </a>
+      </div>
+    </div>
+  </div>
+    
+<footer class="site-footer">
+  <div class="footer-left">
+    <span>&copy; AnuByte Developments 2025, all rights reserved.</span>
+  </div>
+  <div class="footer-right">
+    <a href="https://instagram.com/aethervoiddev" target="_blank" rel="noopener">
+      <img src="https://teamanu.github.io/Website/assets/icons/instagram.png" alt="Instagram" />
+    </a>
+    <a href="https://tiktok.com/anubyte.music" target="_blank" rel="noopener">
+      <img src="https://teamanu.github.io/Website/assets/icons/tiktok.png" alt="TikTok" />
+    </a>
+    <a href="https://github.com/TeamANU" target="_blank" rel="noopener">
+      <img src="https://teamanu.github.io/Website/assets/icons/github.png" alt="GitHub" />
+    </a>
+  </div>
+</footer>
+
+  <script>
+    const openCenterBtn = document.getElementById('open-center');
+    const backdropCenter = document.getElementById('backdrop-center');
+    const centerModal = document.getElementById('center-modal');
+    const centerClose = document.getElementById('center-close');
+
+    const openMenuBtn = document.getElementById('open-menu');
+    const backdropMenu = document.getElementById('backdrop-menu');
+    const menuPanel = document.getElementById('menu-panel');
+    const menuClose = document.getElementById('menu-close');
+
+    function showBackdrop(el) {
+      el.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function hideBackdrop(el) {
+      el.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    openCenterBtn.addEventListener('click', () => {
+      showBackdrop(backdropCenter);
+      centerModal.focus();
+    });
+    centerClose.addEventListener('click', () => {
+      hideBackdrop(backdropCenter);
+      openCenterBtn.focus();
+    });
+    backdropCenter.addEventListener('click', (e) => {
+      if (e.target === backdropCenter) {
+        hideBackdrop(backdropCenter);
+        openCenterBtn.focus();
+      }
+    });
+
+    openMenuBtn.addEventListener('click', () => {
+      showBackdrop(backdropMenu);
+      menuPanel.focus();
+    });
+    menuClose.addEventListener('click', () => {
+      hideBackdrop(backdropMenu);
+      openMenuBtn.focus();
+    });
+    backdropMenu.addEventListener('click', (e) => {
+      if (e.target === backdropMenu) {
+        hideBackdrop(backdropMenu);
+        openMenuBtn.focus();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (backdropCenter.classList.contains('show')) {
+          hideBackdrop(backdropCenter);
+          openCenterBtn.focus();
+        }
+        if (backdropMenu.classList.contains('show')) {
+          hideBackdrop(backdropMenu);
+          openMenuBtn.focus();
+        }
+      }
+    });
+  </script>
 </body>
 </html>
